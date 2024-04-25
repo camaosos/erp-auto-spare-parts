@@ -1,0 +1,145 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-24 20:49-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\inventory\models.py:12 .\inventory\models.py:25
+msgid "name"
+msgstr "nombre"
+
+#: .\inventory\models.py:13
+msgid "quantity"
+msgstr "cantidad"
+
+#: .\inventory\models.py:14 .\inventory\models.py:28
+msgid "line"
+msgstr "línea"
+
+#: .\inventory\templates\inventory\dashboard.html:24
+msgid "Name"
+msgstr "Nombre"
+
+#: .\inventory\templates\inventory\dashboard.html:25
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: .\inventory\templates\inventory\dashboard.html:26
+msgid "Line"
+msgstr "Línea"
+
+#: .\inventory\templates\inventory\dashboard.html:52
+msgid "Edit"
+msgstr "Editar"
+
+#: .\inventory\templates\inventory\dashboard.html:55
+#: .\inventory\templates\inventory\delete_item.html:12
+msgid "Delete"
+msgstr "Borrar"
+
+#: .\inventory\templates\inventory\delete_item.html:10
+msgid "Are you sure you want to delete"
+msgstr "¿Está seguro(a) de borrar"
+
+#: .\inventory\templates\inventory\delete_item.html:11
+msgid "This cannot be undone."
+msgstr "Esto no se puede deshacer."
+
+#: .\inventory\templates\inventory\index.html:8
+msgid "Track and Manage your Inventory"
+msgstr "Rastree y gestione su inventario"
+
+#: .\inventory\templates\inventory\index.html:9
+msgid ""
+"Keep track of your inventory and receive quantity alerts for low inventory."
+msgstr "Rastree y gestione su inventario. Reciba alertas por bajas cantidades."
+
+#: .\inventory\templates\inventory\index.html:11
+msgid "Get Started Now!"
+msgstr "Comienza Ahora"
+
+#: .\inventory\templates\inventory\item_form.html:6
+#: .\inventory\templates\inventory\line_form.html:6
+msgid "Go back"
+msgstr "Regresar"
+
+#: .\inventory\templates\inventory\item_form.html:9
+msgid "Inventory Item"
+msgstr "Item de inventario"
+
+#: .\inventory\templates\inventory\item_form.html:14
+msgid "Add Item"
+msgstr "Añadir ítem"
+
+#: .\inventory\templates\inventory\line_form.html:9
+msgid "Inventory Line"
+msgstr "Item de inventario"
+
+#: .\inventory\templates\inventory\line_form.html:14
+msgid "Add Line"
+msgstr "Agregar línea"
+
+#: .\inventory\templates\inventory\login.html:12
+msgid "Sign In"
+msgstr "Ingresar"
+
+#: .\inventory\templates\inventory\login.html:15
+msgid "Need an account?"
+msgstr "¿Necesita una cuenta?"
+
+#: .\inventory\templates\inventory\login.html:16
+#: .\inventory\templates\inventory\navigation.html:42
+#: .\inventory\templates\inventory\signup.html:27
+msgid "Sign Up"
+msgstr "Registrarse"
+
+#: .\inventory\templates\inventory\logout.html:8
+msgid "You have been logged out"
+msgstr "Ha cerrado sesión"
+
+#: .\inventory\templates\inventory\logout.html:11
+msgid "Log In Again"
+msgstr "Ingresar de nuevo"
+
+#: .\inventory\templates\inventory\navigation.html:5
+msgid "Inventory manager"
+msgstr "Gestor de inventario"
+
+#: .\inventory\templates\inventory\navigation.html:19
+msgid "Language"
+msgstr "Idioma"
+
+#: .\inventory\templates\inventory\navigation.html:35
+msgid "Sign Out"
+msgstr "Cerrar sesión"
+
+#: .\inventory\templates\inventory\navigation.html:39
+#: .\inventory\templates\inventory\signup.html:31
+msgid "Log In"
+msgstr "Ingresar"
+
+#: .\inventory\templates\inventory\signup.html:30
+msgid "Already have an account?"
+msgstr "¿Ya tiene una cuenta?"
+
+#: .\inventory_autoparts\settings.py:142
+msgid "English"
+msgstr "Inglés"
+
+#: .\inventory_autoparts\settings.py:143
+msgid "Spanish"
+msgstr "Español"
