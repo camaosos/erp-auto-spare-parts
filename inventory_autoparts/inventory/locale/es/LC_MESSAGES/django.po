@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-24 20:49-0500\n"
+"POT-Creation-Date: 2024-04-29 16:38-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,42 +18,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\inventory\models.py:12 .\inventory\models.py:25
+#: .\inventory\models.py:12 .\inventory\models.py:24 .\inventory\models.py:34
+#: .\inventory\models.py:37
 msgid "name"
 msgstr "nombre"
 
-#: .\inventory\models.py:13
+#: .\inventory\models.py:15 .\inventory\models.py:26
+msgid "line"
+msgstr "linea"
+
+#: .\inventory\models.py:25
 msgid "quantity"
 msgstr "cantidad"
 
-#: .\inventory\models.py:14 .\inventory\models.py:28
-msgid "line"
-msgstr "línea"
+#: .\inventory\templates\inventory\buy_form.html:6
+#: .\inventory\templates\inventory\item_form.html:6
+#: .\inventory\templates\inventory\line_form.html:6
+#: .\inventory\templates\inventory\sell_form.html:6
+msgid "Go back"
+msgstr "Regresar"
 
-#: .\inventory\templates\inventory\dashboard.html:24
-msgid "Name"
-msgstr "Nombre"
-
-#: .\inventory\templates\inventory\dashboard.html:25
-msgid "Quantity"
-msgstr "Cantidad"
-
-#: .\inventory\templates\inventory\dashboard.html:26
+#: .\inventory\templates\inventory\dashboard.html:18
+#: .\inventory\templates\inventory\dashboard.html:28
 msgid "Line"
 msgstr "Línea"
 
-#: .\inventory\templates\inventory\dashboard.html:52
+#: .\inventory\templates\inventory\dashboard.html:19
+msgid "Buy"
+msgstr "Comprar"
+
+#: .\inventory\templates\inventory\dashboard.html:20
+msgid "Sell"
+msgstr "Vender"
+
+#: .\inventory\templates\inventory\dashboard.html:25
+msgid "Code"
+msgstr "Código"
+
+#: .\inventory\templates\inventory\dashboard.html:26
+msgid "Name"
+msgstr "Nombre"
+
+#: .\inventory\templates\inventory\dashboard.html:27
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: .\inventory\templates\inventory\dashboard.html:54
 msgid "Edit"
 msgstr "Editar"
 
-#: .\inventory\templates\inventory\dashboard.html:55
+#: .\inventory\templates\inventory\dashboard.html:57
 #: .\inventory\templates\inventory\delete_item.html:12
 msgid "Delete"
 msgstr "Borrar"
 
 #: .\inventory\templates\inventory\delete_item.html:10
 msgid "Are you sure you want to delete"
-msgstr "¿Está seguro(a) de borrar"
+msgstr "¿Está seguro que desea borrar"
 
 #: .\inventory\templates\inventory\delete_item.html:11
 msgid "This cannot be undone."
@@ -61,37 +82,34 @@ msgstr "Esto no se puede deshacer."
 
 #: .\inventory\templates\inventory\index.html:8
 msgid "Track and Manage your Inventory"
-msgstr "Rastree y gestione su inventario"
+msgstr "Rastrea y gestiona tu inventario"
 
 #: .\inventory\templates\inventory\index.html:9
 msgid ""
 "Keep track of your inventory and receive quantity alerts for low inventory."
-msgstr "Rastree y gestione su inventario. Reciba alertas por bajas cantidades."
+msgstr ""
+"Rastrea y gestiona tu inventario. Recibe alertas por cantidades bajas en "
+"inventario."
 
 #: .\inventory\templates\inventory\index.html:11
 msgid "Get Started Now!"
 msgstr "Comienza Ahora"
 
-#: .\inventory\templates\inventory\item_form.html:6
-#: .\inventory\templates\inventory\line_form.html:6
-msgid "Go back"
-msgstr "Regresar"
-
 #: .\inventory\templates\inventory\item_form.html:9
 msgid "Inventory Item"
-msgstr "Item de inventario"
+msgstr "Item de Inventario"
 
 #: .\inventory\templates\inventory\item_form.html:14
 msgid "Add Item"
-msgstr "Añadir ítem"
+msgstr "Añadir item"
 
 #: .\inventory\templates\inventory\line_form.html:9
 msgid "Inventory Line"
-msgstr "Item de inventario"
+msgstr "Línea de Inventario"
 
 #: .\inventory\templates\inventory\line_form.html:14
 msgid "Add Line"
-msgstr "Agregar línea"
+msgstr "Añadir Línea"
 
 #: .\inventory\templates\inventory\login.html:12
 msgid "Sign In"
@@ -109,7 +127,7 @@ msgstr "Registrarse"
 
 #: .\inventory\templates\inventory\logout.html:8
 msgid "You have been logged out"
-msgstr "Ha cerrado sesión"
+msgstr "Has cerrado sesión"
 
 #: .\inventory\templates\inventory\logout.html:11
 msgid "Log In Again"
@@ -135,6 +153,11 @@ msgstr "Ingresar"
 #: .\inventory\templates\inventory\signup.html:30
 msgid "Already have an account?"
 msgstr "¿Ya tiene una cuenta?"
+
+#: .\inventory\views.py:39
+#, python-brace-format
+msgid "Items {list_low_inventory_ids} with low inventory"
+msgstr "Item {list_low_inventory_ids} con bajo inventario"
 
 #: .\inventory_autoparts\settings.py:142
 msgid "English"

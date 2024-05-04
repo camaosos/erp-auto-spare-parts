@@ -1,0 +1,42 @@
+{% extends 'inventory/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-10 col-11 mx-auto mt-5">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"> {% trans "Code" %} </th>
+                    <th scope="col"> {% trans "Name" %} </th>
+                    <th scope="col"> {% trans "Quantity" %} </th>
+                    <th scope="col"> {% trans "Item" %} </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {% if buys|length == 0 %}
+                <tr>
+                    <th scope="row">-</th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                {% else %}
+                {% for buy in buys %}
+                <tr>
+                    <th scope="row">{{buy.id}}</th>
+                    <td>{{buy.name}}</td>
+                    <td>{{buy.quantity}}</td>                    
+                    <td>{{buy.item.name}}</td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
