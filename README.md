@@ -10,7 +10,3 @@ python manage.py compilemessages
 python manage.py runserver
 python manage.py createsuperuser
 ```
-
-
-
-

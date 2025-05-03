@@ -11,6 +11,8 @@ from django.views.generic import TemplateView, View, CreateView, UpdateView, Del
 from django.views.generic.edit import FormView
 from django.utils.translation import gettext_lazy as _
 from django.db.models import F
+from django.views.decorators.csrf import csrf_exempt
+
 
 from inventory_autoparts.settings import LOW_QUANTITY
 
@@ -39,6 +41,12 @@ def create_buy_item(request, pk):
             buy_item = form.save(commit=False)
             buy_item.buy = buy
             buy_item.save()
+
+            # Update inventory item quantity
+            inventory_item = InventoryItem.objects.get(id=buy_item.item.id)
+            inventory_item.quantity = F("quantity") + buy_item.quantity
+            inventory_item.save()
+
             return redirect("detail-buy-item", pk=buy_item.id)
         else:
             return render(request, "inventory/buy_item_form.html", context={
@@ -81,11 +89,16 @@ def update_buy_item(request, pk):
     Update buy item
     """
     buy_item = BuyItem.objects.get(id=pk)
+    original_quantity = buy_item.quantity
     form = BuyItemForm(request.POST or None, instance=buy_item)
  
     if request.method == "POST":
         if form.is_valid():
+            # Update inventory item quantity
+            inventory_item = InventoryItem.objects.get(id=buy_item.item.id)
+            inventory_item.quantity = F("quantity") - original_quantity + form.instance.quantity
             form.save()
+            inventory_item.save()
             return redirect("detail-buy-item", pk=buy_item.id)
  
     context = {
@@ -93,14 +106,21 @@ def update_buy_item(request, pk):
         "buy_item": buy_item
     }
  
-    return render(request, "inventory/book_form.html", context)
+    return render(request, "inventory/buy_item_form.html", context)
 
-
+@csrf_exempt
 def delete_buy_item(request, pk):
     """
     Delete Buy Item
     """
     buy_item = get_object_or_404(BuyItem, id=pk)
+
+    # Get the inventory item associated with the buy item
+    inventory_item = InventoryItem.objects.get(id=buy_item.item.id)
+
+    # Update the inventory item quantity
+    inventory_item.quantity = F("quantity") - buy_item.quantity
+    inventory_item.save()
  
     if request.method == "POST":
         buy_item.delete()
@@ -126,6 +146,12 @@ def create_sell_item(request, pk):
             sell_item = form.save(commit=False)
             sell_item.sell = sell
             sell_item.save()
+
+            # Update inventory item quantity
+            inventory_item = InventoryItem.objects.get(id=sell_item.item.id)
+            inventory_item.quantity = F("quantity") - sell_item.quantity
+            inventory_item.save()
+
             return redirect("detail-sell-item", pk=sell_item.id)
         else:
             return render(request, "inventory/sell_item_form.html", context={
@@ -168,11 +194,16 @@ def update_sell_item(request, pk):
     Update sell item
     """
     sell_item = SellItem.objects.get(id=pk)
+    original_quantity = sell_item.quantity
     form = SellItemForm(request.POST or None, instance=sell_item)
  
     if request.method == "POST":
         if form.is_valid():
+            # Update inventory item quantity
+            inventory_item = InventoryItem.objects.get(id=sell_item.item.id)
+            inventory_item.quantity = F("quantity") + original_quantity - form.instance.quantity
             form.save()
+            inventory_item.save()           
             return redirect("detail-sell-item", pk=sell_item.id)
  
     context = {
@@ -180,9 +211,9 @@ def update_sell_item(request, pk):
         "sell_item": sell_item
     }
  
-    return render(request, "inventory/book_form.html", context)
+    return render(request, "inventory/sell_item_form.html", context)
 
-
+@csrf_exempt
 def delete_sell_item(request, pk):
     """
     Delete Sell Item
@@ -191,6 +222,10 @@ def delete_sell_item(request, pk):
  
     if request.method == "POST":
         sell_item.delete()
+
+        # Update inventory item quantity
+        inventory_item = InventoryItem.objects.get(id=sell_item.item.id)
+        inventory_item.quantity = F("quantity") + sell_item.quantity
         return HttpResponse("")
  
     return HttpResponseNotAllowed(
