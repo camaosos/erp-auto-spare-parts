@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-29 16:38-0500\n"
+"POT-Creation-Date: 2025-05-02 14:22-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,50 +18,84 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\inventory\models.py:12 .\inventory\models.py:24 .\inventory\models.py:34
-#: .\inventory\models.py:37
+#: .\inventory\models.py:14 .\inventory\models.py:26 .\inventory\models.py:49
+#: .\inventory\models.py:61 .\inventory\models.py:79
 msgid "name"
 msgstr "nombre"
 
-#: .\inventory\models.py:15 .\inventory\models.py:26
+#: .\inventory\models.py:17 .\inventory\models.py:33
 msgid "line"
 msgstr "linea"
 
-#: .\inventory\models.py:25
+#: .\inventory\models.py:27
 msgid "quantity"
 msgstr "cantidad"
 
-#: .\inventory\templates\inventory\buy_form.html:6
+#: .\inventory\models.py:50
+#, fuzzy
+#| msgid "name"
+msgid "surname"
+msgstr "nombre"
+
+#: .\inventory\models.py:51
+msgid "id"
+msgstr ""
+
+#: .\inventory\templates\inventory\buy_form.html:8
 #: .\inventory\templates\inventory\item_form.html:6
 #: .\inventory\templates\inventory\line_form.html:6
 #: .\inventory\templates\inventory\sell_form.html:6
 msgid "Go back"
 msgstr "Regresar"
 
+#: .\inventory\templates\inventory\buy_form.html:11
+#: .\inventory\templates\inventory\dashboard.html:19
+msgid "Buy"
+msgstr "Comprar"
+
+#: .\inventory\templates\inventory\buy_form.html:24
+#: .\inventory\templates\inventory\item_form.html:14
+msgid "Add Item"
+msgstr "Añadir item"
+
+#: .\inventory\templates\inventory\buy_form.html:28
+msgid "Add Buy"
+msgstr ""
+
+#: .\inventory\templates\inventory\buy_list.html:11
+#: .\inventory\templates\inventory\dashboard.html:25
+#: .\inventory\templates\inventory\sell_list.html:10
+msgid "Code"
+msgstr "Código"
+
+#: .\inventory\templates\inventory\buy_list.html:12
+#: .\inventory\templates\inventory\dashboard.html:26
+#: .\inventory\templates\inventory\sell_list.html:11
+msgid "Name"
+msgstr "Nombre"
+
+#: .\inventory\templates\inventory\buy_list.html:13
+#: .\inventory\templates\inventory\dashboard.html:27
+#: .\inventory\templates\inventory\sell_list.html:12
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: .\inventory\templates\inventory\buy_list.html:14
+#: .\inventory\templates\inventory\sell_list.html:13
+#, fuzzy
+#| msgid "Add Item"
+msgid "Item"
+msgstr "Añadir item"
+
 #: .\inventory\templates\inventory\dashboard.html:18
 #: .\inventory\templates\inventory\dashboard.html:28
 msgid "Line"
 msgstr "Línea"
 
-#: .\inventory\templates\inventory\dashboard.html:19
-msgid "Buy"
-msgstr "Comprar"
-
 #: .\inventory\templates\inventory\dashboard.html:20
+#: .\inventory\templates\inventory\sell_form.html:9
 msgid "Sell"
 msgstr "Vender"
-
-#: .\inventory\templates\inventory\dashboard.html:25
-msgid "Code"
-msgstr "Código"
-
-#: .\inventory\templates\inventory\dashboard.html:26
-msgid "Name"
-msgstr "Nombre"
-
-#: .\inventory\templates\inventory\dashboard.html:27
-msgid "Quantity"
-msgstr "Cantidad"
 
 #: .\inventory\templates\inventory\dashboard.html:54
 msgid "Edit"
@@ -98,10 +132,6 @@ msgstr "Comienza Ahora"
 #: .\inventory\templates\inventory\item_form.html:9
 msgid "Inventory Item"
 msgstr "Item de Inventario"
-
-#: .\inventory\templates\inventory\item_form.html:14
-msgid "Add Item"
-msgstr "Añadir item"
 
 #: .\inventory\templates\inventory\line_form.html:9
 msgid "Inventory Line"
@@ -150,11 +180,17 @@ msgstr "Cerrar sesión"
 msgid "Log In"
 msgstr "Ingresar"
 
+#: .\inventory\templates\inventory\sell_form.html:14
+#, fuzzy
+#| msgid "Sell"
+msgid "Add Sell"
+msgstr "Vender"
+
 #: .\inventory\templates\inventory\signup.html:30
 msgid "Already have an account?"
 msgstr "¿Ya tiene una cuenta?"
 
-#: .\inventory\views.py:39
+#: .\inventory\views.py:218
 #, python-brace-format
 msgid "Items {list_low_inventory_ids} with low inventory"
 msgstr "Item {list_low_inventory_ids} con bajo inventario"

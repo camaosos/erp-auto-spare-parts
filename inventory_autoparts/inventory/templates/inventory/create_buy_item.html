@@ -1,9 +1,11 @@
 {% extends "inventory/base.html" %}
 {% load i18n %}
  
-<!-- {% block content %} -->
+{% block content %}
  
     <h1>Create buy items for {{ buy.name }} id {{ buy.id }} </h1>
+
+    <p>Provider: {{ buy.third_party}}</p>
     
     <button type="button" hx-get="{% url 'create-buy-item-form' %}" hx-target="#buyitemforms" hx-swap="beforeend">
         Add item to buy
@@ -33,4 +35,4 @@
             });
         });
     </script>
-<!-- {% endblock %} -->
+{% endblock %}

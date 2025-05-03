@@ -219,13 +219,15 @@ def delete_sell_item(request, pk):
     Delete Sell Item
     """
     sell_item = get_object_or_404(SellItem, id=pk)
+
+    # Update inventory item quantity
+    inventory_item = InventoryItem.objects.get(id=sell_item.item.id)
+    inventory_item.quantity = F("quantity") + sell_item.quantity
+    # Save the inventory item
+    inventory_item.save()
  
     if request.method == "POST":
         sell_item.delete()
-
-        # Update inventory item quantity
-        inventory_item = InventoryItem.objects.get(id=sell_item.item.id)
-        inventory_item.quantity = F("quantity") + sell_item.quantity
         return HttpResponse("")
  
     return HttpResponseNotAllowed(
