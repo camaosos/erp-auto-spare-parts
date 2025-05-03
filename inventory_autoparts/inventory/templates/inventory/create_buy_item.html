@@ -1,0 +1,36 @@
+{% extends "inventory/base.html" %}
+{% load i18n %}
+ 
+<!-- {% block content %} -->
+ 
+    <h1>Create buy items for {{ buy.name }} id {{ buy.id }} </h1>
+    
+    <button type="button" hx-get="{% url 'create-buy-item-form' %}" hx-target="#buyitemforms" hx-swap="beforeend">
+        Add item to buy
+    </button>
+    <button type="button" class="cancel-form">Close</button>
+ 
+    <div id="buyitemforms">
+        
+    </div>
+
+    {% for buy_item in buy_items %}
+    
+    {% include "inventory/buy_item_detail.html" %}
+    
+    {% endfor %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.cancel-form').forEach(button => {
+                button.addEventListener('click', function() {
+                    const formRowId = this.dataset.formRowId;
+                    const formRow = document.getElementById("buyitemforms");
+                    if (formRow) {
+                        formRow.setHTMLUnsafe("<div></div>");  // Remove the form from the DOM
+                    }
+                });
+            });
+        });
+    </script>
+<!-- {% endblock %} -->

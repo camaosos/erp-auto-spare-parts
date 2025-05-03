@@ -9,7 +9,7 @@
         <h1> {% trans "Sell" %} </h1>
         <form method="post">
             {% csrf_token %}
-            {% crispy form helper %}
+            {{ form|crispy }}
             <div class="mt-3">
                 <button class="btn btn-primary"> {% trans "Add Sell" %} </button>
 

@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+
+<div hx-target="this" hx-swap="outerHTML">
+ 
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+ 
+        {% if sell_item %}
+            <button class="btn btn-primary" type="submit" hx-post="{% url 'update-sell-item' sell_item.id %}">
+                Submit
+            </button>
+        {% else %}
+            <button hx-post=".">
+                Submit
+            </button>
+        {% endif %}
+        
+    </form>
+ 
+</div>

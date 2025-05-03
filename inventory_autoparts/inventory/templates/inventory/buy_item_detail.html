@@ -1,0 +1,6 @@
+<div hx-target="this" hx-swap="outerHTML">
+    <h3>Buy Item Name: {{ buy_item.item.name }}</h3>
+    <p>Price: {{ buy_item.price }}</p>
+    <button hx-get="{% url 'update-buy-item' buy_item.id %}">Update</button>
+    <button class="btn btn-danger" hx-post="{% url 'delete-buy-item' buy_item.id %}">Delete</button>
+</div>

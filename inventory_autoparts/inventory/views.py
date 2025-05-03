@@ -1,8 +1,8 @@
 """Views"""
 
 from django.forms import BaseModelForm, formset_factory
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseNotAllowed
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,12 +14,190 @@ from django.db.models import F
 
 from inventory_autoparts.settings import LOW_QUANTITY
 
-from .models import InventoryItem, Line, Buy, Sell
-from .forms import BuyFormSetHelper, InventoryItemForm, LineForm, SellFormSetHelper, UserRegisterForm, BuyForm, SellForm
-# from .formsets import BuyFormSet
+from .models import InventoryItem, Line, Buy, Sell, BuyItem, SellItem
+from .forms import (
+    InventoryItemForm,
+    LineForm,
+    UserRegisterForm,
+    BuyForm,
+    SellForm,
+    BuyItemForm,
+    SellItemForm,
+)
 
 # Create your views here.
+def create_buy_item(request, pk):
+    """
+    Create buy item
+    """
+    buy = Buy.objects.get(id=pk)
+    buy_items = BuyItem.objects.filter(buy=buy)
+    form = BuyItemForm(request.POST or None)
+ 
+    if request.method == "POST":
+        if form.is_valid():
+            buy_item = form.save(commit=False)
+            buy_item.buy = buy
+            buy_item.save()
+            return redirect("detail-buy-item", pk=buy_item.id)
+        else:
+            return render(request, "inventory/buy_item_form.html", context={
+                "form": form
+            })
+ 
+    context = {
+        "form": form,
+        "buy": buy,
+        "buy_items": buy_items
+    }
+ 
+    return render(request, "inventory/create_buy_item.html", context)
 
+
+def create_buy_item_form(request):
+    """
+    Create buy item form
+    """
+    form = BuyItemForm()
+    context = {
+        "form": form
+    }
+    return render(request, "inventory/buy_item_form.html", context)
+
+
+def detail_buy_item(request, pk):
+    """
+    Detail buy item
+    """
+    buy_item = get_object_or_404(BuyItem, id=pk)
+    context = {
+        "buy_item": buy_item
+    }
+    return render(request, "inventory/buy_item_detail.html", context)
+
+
+def update_buy_item(request, pk):
+    """
+    Update buy item
+    """
+    buy_item = BuyItem.objects.get(id=pk)
+    form = BuyItemForm(request.POST or None, instance=buy_item)
+ 
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("detail-buy-item", pk=buy_item.id)
+ 
+    context = {
+        "form": form,
+        "buy_item": buy_item
+    }
+ 
+    return render(request, "inventory/book_form.html", context)
+
+
+def delete_buy_item(request, pk):
+    """
+    Delete Buy Item
+    """
+    buy_item = get_object_or_404(BuyItem, id=pk)
+ 
+    if request.method == "POST":
+        buy_item.delete()
+        return HttpResponse("")
+ 
+    return HttpResponseNotAllowed(
+        [
+            "POST",
+        ]
+    )
+
+
+def create_sell_item(request, pk):
+    """
+    Create sell item
+    """
+    sell = Sell.objects.get(id=pk)
+    sell_items = SellItem.objects.filter(sell=sell)
+    form = SellItemForm(request.POST or None)
+ 
+    if request.method == "POST":
+        if form.is_valid():
+            sell_item = form.save(commit=False)
+            sell_item.sell = sell
+            sell_item.save()
+            return redirect("detail-sell-item", pk=sell_item.id)
+        else:
+            return render(request, "inventory/sell_item_form.html", context={
+                "form": form
+            })
+ 
+    context = {
+        "form": form,
+        "sell": sell,
+        "sell_items": sell_items
+    }
+ 
+    return render(request, "inventory/create_sell_item.html", context)
+
+
+def create_sell_item_form(request):
+    """
+    Create sell item form
+    """
+    form = SellItemForm()
+    context = {
+        "form": form
+    }
+    return render(request, "inventory/sell_item_form.html", context)
+
+
+def detail_sell_item(request, pk):
+    """
+    Detail sell item
+    """
+    sell_item = get_object_or_404(SellItem, id=pk)
+    context = {
+        "sell_item": sell_item
+    }
+    return render(request, "inventory/sell_item_detail.html", context)
+
+
+def update_sell_item(request, pk):
+    """
+    Update sell item
+    """
+    sell_item = SellItem.objects.get(id=pk)
+    form = SellItemForm(request.POST or None, instance=sell_item)
+ 
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return redirect("detail-sell-item", pk=sell_item.id)
+ 
+    context = {
+        "form": form,
+        "sell_item": sell_item
+    }
+ 
+    return render(request, "inventory/book_form.html", context)
+
+
+def delete_sell_item(request, pk):
+    """
+    Delete Sell Item
+    """
+    sell_item = get_object_or_404(SellItem, id=pk)
+ 
+    if request.method == "POST":
+        sell_item.delete()
+        return HttpResponse("")
+ 
+    return HttpResponseNotAllowed(
+        [
+            "POST",
+        ]
+    )
 
 class Index(TemplateView):
     """Index"""
@@ -31,7 +209,7 @@ class Dashboard(LoginRequiredMixin, View):
     """Dashboard"""
 
     def get(self, request):
-        """ Dashboard Get """
+        """Dashboard Get"""
         items = InventoryItem.objects.filter(user=self.request.user.id).order_by("id")
         low_inventory = items.filter(
             user=self.request.user.id, quantity__lte=LOW_QUANTITY
@@ -133,7 +311,6 @@ class AddLine(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("dashboard")
 
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
         return context
 
@@ -142,62 +319,45 @@ class AddLine(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class AddBuy(LoginRequiredMixin, FormView):
+class AddBuy(LoginRequiredMixin, CreateView):
     """Add Buy"""
 
     model = Buy
-    form_class = formset_factory(BuyForm, extra=1)
-    # helper = BuyFormSetHelper()
+    form_class = BuyForm
     template_name = "inventory/buy_form.html"
-    success_url = reverse_lazy("dashboard")
+
+    def get_success_url(self):
+        return reverse_lazy("create-buy-item", kwargs={"pk": self.object.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["items"] = InventoryItem.objects.all()
-        context["helper"] = BuyFormSetHelper()
-        return context
-
-    def form_valid(self, form) -> HttpResponse:
-        if form.is_valid():
-            print("Formset válido")
-            for f in form:
-                print("Form válido")
-                if f.is_valid():
-                    f.save()
-                    # print(f.instance.quantity)
-                    InventoryItem.objects.filter(name=f.instance.item).update(
-                        quantity=F("quantity") + f.instance.quantity
-                    )
-        return super().form_valid(form)
-
-
-class AddSell(LoginRequiredMixin, FormView):
-    """Add Sell"""
-
-    model = Sell
-    form_class = formset_factory(SellForm, extra=1)
-    template_name = "inventory/sell_form.html"
-    success_url = reverse_lazy("dashboard")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["items"] = InventoryItem.objects.all()
-        context["helper"] = SellFormSetHelper()
         return context
 
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        if form.is_valid():
-            print("Formset válido")
-            for f in form:
-                print("Form válido")
-                if f.is_valid():
-                    f.save()
-                    # print(f.instance.quantity)
-                    InventoryItem.objects.filter(name=f.instance.item).update(
-                        quantity=F("quantity") - f.instance.quantity
-                    )
+        form.instance.user = self.request.user
         return super().form_valid(form)
-    
+
+
+
+class AddSell(LoginRequiredMixin, CreateView):
+    """Add Sell"""
+
+    model = Sell
+    form_class = SellForm
+    template_name = "inventory/sell_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("create-sell-item", kwargs={"pk": self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
 class BuyList(LoginRequiredMixin, View):
     def get(self, request):
         buys = Buy.objects.order_by("id")
@@ -207,7 +367,8 @@ class BuyList(LoginRequiredMixin, View):
             template_name="inventory/buy_list.html",
             context={"buys": buys},
         )
-    
+
+
 class SellList(LoginRequiredMixin, View):
     def get(self, request):
         sells = Sell.objects.order_by("id")
@@ -217,4 +378,3 @@ class SellList(LoginRequiredMixin, View):
             template_name="inventory/sell_list.html",
             context={"sells": sells},
         )
-    
