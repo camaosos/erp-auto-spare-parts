@@ -1,0 +1,49 @@
+{% extends 'inventory/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<a href="{% url 'dashboard' %}" class="btn btn-outline-primary my-3 mx-4 "> {% trans "Go back" %} </a>
+<div class="row">
+    <div class="col-md-10 col-11 mx-auto mt-5">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"> {% trans "ID" %} </th>
+                    <th scope="col"> {% trans "Name" %} </th>
+                    <th scope="col"> {% trans "Surname" %} </th>
+                    <th scope="col"> {% trans "Is provider" %} </th>
+                    <th scope="col"> {% trans "Is customer" %} </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {% if third_parties|length == 0 %}
+                <tr>
+                    <th scope="row">-</th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                {% else %}
+                {% for third_party in third_parties %}
+                <tr>
+                    <th scope="row">{{third_party.id}}</th>
+                    <td>{{third_party.name}}</td>
+                    <td>{{third_party.surname}}</td>                    
+                    <td>
+                        <input type="checkbox" disabled {% if third_party.is_provider %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <input type="checkbox" disabled {% if third_party.is_customer %}checked{% endif %}>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

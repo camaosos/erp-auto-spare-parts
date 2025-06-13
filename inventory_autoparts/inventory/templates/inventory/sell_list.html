@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content %}
+<a href="{% url 'dashboard' %}" class="btn btn-outline-primary my-3 mx-4 "> {% trans "Go back" %} </a>
 <div class="row">
     <div class="col-md-10 col-11 mx-auto mt-5">
         <table class="table table-hover table-striped">
@@ -9,8 +10,8 @@
                 <tr>
                     <th scope="col"> {% trans "Code" %} </th>
                     <th scope="col"> {% trans "Name" %} </th>
-                    <th scope="col"> {% trans "Quantity" %} </th>
-                    <th scope="col"> {% trans "Item" %} </th>
+                    <th scope="col"> {% trans "Customer" %} </th>
+                    <th scope="col"> {% trans "Customer ID" %} </th>
 
 
                 </tr>
@@ -27,9 +28,9 @@
                 {% for sell in sells %}
                 <tr>
                     <th scope="row">{{sell.id}}</th>
-                    <td>{{sell.name}}</td>
-                    <td>{{sell.quantity}}</td>                    
-                    <td>{{sell.item.name}}</td>
+                    <td> <a href="{% url 'create-sell-item' sell.id %}"> {{sell.name}} </a></td>
+                    <td>{{sell.third_party.name}}</td>                    
+                    <td>{{sell.third_party.id}}</td>
                 </tr>
                 {% endfor %}
                 {% endif %}

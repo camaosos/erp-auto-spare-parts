@@ -1,6 +1,9 @@
+{% load i18n %}
+
 <div hx-target="this" hx-swap="outerHTML">
     <h3>Sell Item Name: {{ sell_item.item.name }}</h3>
     <p>Price: {{ sell_item.price }}</p>
-    <button hx-get="{% url 'update-sell-item' sell_item.id %}">Update</button>
-    <button class="btn btn-danger" hx-post="{% url 'delete-sell-item' sell_item.id %}">Delete</button>
+    <p>Quantity: {{ sell_item.quantity }}</p>
+    <button class="btn btn-primary" hx-get="{% url 'update-sell-item' sell_item.id %}">{% trans "Edit" %}</button>
+    <button class="btn btn-danger" hx-post="{% url 'delete-sell-item' sell_item.id %}">{% trans "Delete" %}</button>
 </div>

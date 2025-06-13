@@ -1,0 +1,21 @@
+{% extends 'inventory/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <a href="{% url 'dashboard' %}" class="btn btn-outline-primary my-3 mx-4 "> {% trans "Go back" %} </a>
+    <div class="row">
+        <div class="col-11 col-md-4 mx-auto mt-5">
+            <h1> {% trans "Third Party" %} </h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="mt-3">
+                    <button class="btn btn-primary"> {% trans "Add Third Party" %} </button>
+
+                </div>
+                
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,16 +1,19 @@
 {% extends "inventory/base.html" %}
 {% load i18n %}
+{% load humanize %}
  
 {% block content %}
  
-    <h1>Create sell items for {{ sell.name }}</h1>
+    <h1>{% trans "Create sell items for" %} {{ sell.name }}</h1>
+
+    <p>ID: {{ sell.id }}</p>
     
-    <p>Customer: {{ sell.third_party }} </p>
+    <p>{% trans "Customer:" %} {{ sell.third_party }} </p>
     
-    <button type="button" hx-get="{% url 'create-sell-item-form' %}" hx-target="#sellitemforms" hx-swap="beforeend">
-        Add item to sell
+    <button type="button" class="btn btn-primary" hx-get="{% url 'create-sell-item-form' %}" hx-target="#sellitemforms" hx-swap="beforeend">
+        {% trans "Add item to sell" %}
     </button>
-    <button type="button" class="cancel-form">Close</button>
+    <button type="button" class="cancel-form btn btn-danger">{% trans "Close" %}</button>
  
     <div id="sellitemforms">
         
@@ -21,6 +24,14 @@
     {% include "inventory/sell_item_detail.html" %}
     
     {% endfor %}
+
+    {% if sell_items %}
+    <div class="mt-3">
+        <strong>{% trans "Base Total" %}:</strong> ${{ sell.base_total|floatformat:2|intcomma }}
+        <strong>{% trans "VAT Total" %}:</strong> ${{ sell.vat_total|floatformat:2|intcomma }}
+        <strong>{% trans "Total" %}:</strong> ${{ sell.total|floatformat:2|intcomma }}
+    </div>
+    {% endif %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

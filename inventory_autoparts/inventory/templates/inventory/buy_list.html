@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block content %}
-
+<a href="{% url 'dashboard' %}" class="btn btn-outline-primary my-3 mx-4 "> {% trans "Go back" %} </a>
 <div class="row">
     <div class="col-md-10 col-11 mx-auto mt-5">
         <table class="table table-hover table-striped">
@@ -10,8 +10,8 @@
                 <tr>
                     <th scope="col"> {% trans "Code" %} </th>
                     <th scope="col"> {% trans "Name" %} </th>
-                    <th scope="col"> {% trans "Quantity" %} </th>
-                    <th scope="col"> {% trans "Item" %} </th>
+                    <th scope="col"> {% trans "Provider" %} </th>
+                    <th scope="col"> {% trans "Provider ID" %} </th>
 
 
                 </tr>
@@ -28,9 +28,9 @@
                 {% for buy in buys %}
                 <tr>
                     <th scope="row">{{buy.id}}</th>
-                    <td>{{buy.name}}</td>
-                    <td>{{buy.quantity}}</td>                    
-                    <td>{{buy.item.name}}</td>
+                    <td> <a href="{% url 'create-buy-item' buy.id %}"> {{buy.name}} </a></td>
+                    <td>{{buy.third_party.name}}</td>                    
+                    <td>{{buy.third_party.id}}</td>
                 </tr>
                 {% endfor %}
                 {% endif %}

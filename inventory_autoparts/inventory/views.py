@@ -1,6 +1,6 @@
 """Views"""
 
-from django.forms import BaseModelForm, formset_factory
+from django.forms import BaseModelForm
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -8,7 +8,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView
-from django.views.generic.edit import FormView
 from django.utils.translation import gettext_lazy as _
 from django.db.models import F
 from django.views.decorators.csrf import csrf_exempt
@@ -16,10 +15,11 @@ from django.views.decorators.csrf import csrf_exempt
 
 from inventory_autoparts.settings import LOW_QUANTITY
 
-from .models import InventoryItem, Line, Buy, Sell, BuyItem, SellItem
+from .models import InventoryItem, Line, Buy, Sell, BuyItem, SellItem, ThirdParty
 from .forms import (
     InventoryItemForm,
     LineForm,
+    ThirdPartyForm,
     UserRegisterForm,
     BuyForm,
     SellForm,
@@ -34,7 +34,13 @@ def create_buy_item(request, pk):
     """
     buy = Buy.objects.get(id=pk)
     buy_items = BuyItem.objects.filter(buy=buy)
-    form = BuyItemForm(request.POST or None)
+    form = BuyItemForm(request.POST or None) # , buy_item_id)
+
+    buy.base_total = sum([item.quantity * item.price for item in buy_items])
+    buy.vat_total = sum([item.quantity * item.vat * item.price for item in buy_items])
+    buy.discount_total = sum([item.quantity * item.discount * item.price for item in buy_items])
+    buy.total = buy.base_total + buy.vat_total - buy.discount_total
+    buy.save()
  
     if request.method == "POST":
         if form.is_valid():
@@ -56,7 +62,7 @@ def create_buy_item(request, pk):
     context = {
         "form": form,
         "buy": buy,
-        "buy_items": buy_items
+        "buy_items": buy_items,
     }
  
     return render(request, "inventory/create_buy_item.html", context)
@@ -140,6 +146,14 @@ def create_sell_item(request, pk):
     sell = Sell.objects.get(id=pk)
     sell_items = SellItem.objects.filter(sell=sell)
     form = SellItemForm(request.POST or None)
+
+    # sell.save()
+
+    sell.total = sum([item.quantity * item.price for item in sell_items])
+    sell.base_total = sell.total / (1 + sell.vat) if sell.vat else sell.total
+    sell.vat_total = sell.total - sell.base_total
+    
+    sell.save()
  
     if request.method == "POST":
         if form.is_valid():
@@ -161,7 +175,7 @@ def create_sell_item(request, pk):
     context = {
         "form": form,
         "sell": sell,
-        "sell_items": sell_items
+        "sell_items": sell_items,
     }
  
     return render(request, "inventory/create_sell_item.html", context)
@@ -355,6 +369,34 @@ class AddLine(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+class EditLine(LoginRequiredMixin, UpdateView):
+    """Edit Line"""
+
+    model = Line
+    form_class = LineForm
+    template_name = "inventory/line_form.html"
+    success_url = reverse_lazy("dashboard")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class DeleteLine(LoginRequiredMixin, DeleteView):
+    """Delete Line"""
+
+    model = Line
+    template_name = "inventory/delete_line.html"
+    success_url = reverse_lazy("dashboard")
+    context_object_name = "line"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
 
 class AddBuy(LoginRequiredMixin, CreateView):
     """Add Buy"""
@@ -415,3 +457,48 @@ class SellList(LoginRequiredMixin, View):
             template_name="inventory/sell_list.html",
             context={"sells": sells},
         )
+
+class AddThirdParty(LoginRequiredMixin, CreateView):
+    """Add Third Party"""
+
+    model = ThirdParty
+    form_class = ThirdPartyForm
+    template_name = "inventory/third_party_form.html"
+    success_url = reverse_lazy("dashboard")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+
+class ThirdPartyList(LoginRequiredMixin, View):
+    """Third Party List"""
+
+    def get(self, request):
+        third_parties = ThirdParty.objects.order_by("id")
+
+        return render(
+            request=request,
+            template_name="inventory/third_party_list.html",
+            context={"third_parties": third_parties},
+        )
+
+class EditThirdParty(LoginRequiredMixin, UpdateView):
+    """Edit Third Party"""
+
+    model = ThirdParty
+    form_class = ThirdPartyForm
+    template_name = "inventory/third_party_form.html"
+    success_url = reverse_lazy("dashboard")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        form.instance.user = self.request.user
+        return super().form_valid(form)
