@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 21:53-0500\n"
+"POT-Creation-Date: 2025-06-13 16:11-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: .\inventory\models.py:14 .\inventory\models.py:27 .\inventory\models.py:41
-#: .\inventory\models.py:67 .\inventory\models.py:79 .\inventory\models.py:103
+#: .\inventory\models.py:67 .\inventory\models.py:79
 msgid "name"
 msgstr "nombre"
 
@@ -75,22 +75,29 @@ msgstr "cantidad"
 msgid "Line"
 msgstr "Línea"
 
-#: .\inventory\models.py:104
-msgid "surname"
-msgstr "apellido"
+#: .\inventory\models.py:100
+#| msgid "Is provider"
+msgid "Is Provider"
+msgstr "Es Proveedor"
 
-#: .\inventory\models.py:105
-msgid "id"
-msgstr "id"
+#: .\inventory\models.py:101
+#| msgid "Is customer"
+msgid "Is Customer"
+msgstr "Es Cliente"
 
-#: .\inventory\models.py:118 .\inventory\models.py:148
-#: .\inventory\models.py:185 .\inventory\models.py:204
-#: .\inventory\templates\inventory\buy_list.html:12
+#: .\inventory\models.py:103 .\inventory\models.py:118
+#: .\inventory\models.py:148 .\inventory\models.py:185
+#: .\inventory\models.py:204 .\inventory\templates\inventory\buy_list.html:12
 #: .\inventory\templates\inventory\dashboard.html:30
 #: .\inventory\templates\inventory\sell_list.html:12
 #: .\inventory\templates\inventory\third_party_list.html:12
 msgid "Name"
 msgstr "Nombre"
+
+#: .\inventory\models.py:104
+#: .\inventory\templates\inventory\third_party_list.html:13
+msgid "Surname"
+msgstr "apellido"
 
 #: .\inventory\models.py:126 .\inventory\models.py:159
 msgid "Third party"
@@ -375,10 +382,6 @@ msgstr "Añadir Tercero"
 msgid "ID"
 msgstr "ID"
 
-#: .\inventory\templates\inventory\third_party_list.html:13
-msgid "Surname"
-msgstr "apellido"
-
 #: .\inventory\templates\inventory\third_party_list.html:14
 msgid "Is provider"
 msgstr "Es Proveedor"
@@ -399,6 +402,12 @@ msgstr "Inglés"
 #: .\inventory_autoparts\settings.py:144
 msgid "Spanish"
 msgstr "Español"
+
+#~ msgid "surname"
+#~ msgstr "apellido"
+
+#~ msgid "id"
+#~ msgstr "id"
 
 #~ msgid "VAT: "
 #~ msgstr "IVA: "

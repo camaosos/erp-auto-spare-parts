@@ -97,15 +97,15 @@ class InventoryItem(models.Model):
 class ThirdParty(models.Model):
     """Third Party"""
 
-    is_provider = models.BooleanField()
-    is_customer = models.BooleanField()
+    is_provider = models.BooleanField(verbose_name=_("Is Provider"))
+    is_customer = models.BooleanField(verbose_name=_("Is Customer"))
     # id_type = Enum('Natural Person', 'Legal Person')
-    name = models.CharField(_("name"), max_length=200)
-    surname = models.CharField(_("surname"), max_length=200)
-    id = models.CharField(_("id"), max_length=200, unique=True, primary_key=True)
-    # address = models.CharField(_("address"), max_length=200)
-    # phone = models.CharField(_("phone"), max_length=200)
-    # email = models.EmailField(_("email"), max_length=200, unique=True)
+    name = models.CharField(max_length=200, verbose_name=_("Name"))
+    surname = models.CharField(max_length=200, verbose_name=_("Surname"), blank=True, null=True)
+    id = models.CharField(max_length=200, unique=True, primary_key=True)
+    # address = models.CharField(max_length=200, verbose_name=_("Address"), blank=True, null=True)
+    # phone = models.CharField(max_length=200, verbose_name=_("Phone"), blank=True, null=True)
+    # email = models.EmailField(max_length=200, unique=True, verbose_name=_("Email"), blank=True, null=True)
     # date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -117,10 +117,6 @@ class Buy(models.Model):
 
     name = models.CharField(max_length=200, null=False, blank=False, default="predefined", verbose_name=_("Name"))
     date_created = models.DateTimeField(auto_now_add=True)
-    # item = models.ForeignKey(
-    #     to=InventoryItem, on_delete=models.SET_NULL, blank=True, null=True
-    # )
-    # quantity = models.IntegerField(_("quantity"), blank=False, default=0)
 
     third_party = models.ForeignKey(
         to=ThirdParty, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Third party")
@@ -150,10 +146,6 @@ class Sell(models.Model):
     vat = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.00, verbose_name=_("VAT")
     )
-    # item = models.ForeignKey(
-    #     to=InventoryItem, on_delete=models.SET_NULL, blank=True, null=True
-    # )
-    # quantity = models.IntegerField(_("quantity"), blank=False, default=0)
 
     third_party = models.ForeignKey(
         to=ThirdParty, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Third party")
@@ -186,10 +178,6 @@ class BuyItem(models.Model):
 
     def __str__(self):
         return f"{self.item.name} - {self.quantity}"
-
-    # @property
-    # def subtotal(self):
-    #     return self.quantity * self.price
 
 
 class SellItem(models.Model):

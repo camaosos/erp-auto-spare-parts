@@ -1,13 +1,11 @@
 """User form"""
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Submit
+from crispy_forms.layout import Layout, Row, Column
 
 from django import forms
 # from django.forms.models import inlineformset_factory
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse
-# from crispy_forms.helper import FormHelper, Layout
 from .models import BuyItem, InventoryItem, Line, Buy, Sell, SellItem, ThirdParty
 
 
@@ -79,12 +77,7 @@ class UserRegisterForm(UserCreationForm):
 
 
 class InventoryItemForm(forms.ModelForm):
-    line = forms.ModelChoiceField(queryset=Line.objects.all())
-    # car_year_ranges = forms.ModelMultipleChoiceField(
-    #     queryset=InventoryItem.objects.none(),  # Adjust this queryset as needed
-    #     required=False,
-    #     widget=forms.CheckboxSelectMultiple
-    # )
+
     class Meta:
         model = InventoryItem
         fields = ['name', 'quantity', 'line', 'car_year_ranges']
@@ -98,10 +91,6 @@ class LineForm(forms.ModelForm):
 
 class BuyForm(forms.ModelForm):
     """ Buy Form """
-    # name = forms.CharField(required=True)
-    # item = forms.ModelChoiceField(queryset=InventoryItem.objects.all(), required=True)
-    # quantity = forms.IntegerField(required=True)
-    # third_party = forms.ModelChoiceField(queryset=ThirdParty.objects.all(), required=True)
     class Meta:
         model = Buy
         fields = ['name', 'third_party']
@@ -110,9 +99,6 @@ class BuyForm(forms.ModelForm):
 
 class SellForm(forms.ModelForm):
     """ Sell Form """
-    # name = forms.CharField(required=True)
-    # item = forms.ModelChoiceField(queryset=InventoryItem.objects.all(), required=True)
-    # third_party = forms.ModelChoiceField(queryset=ThirdParty.objects.all(), required=True)
     class Meta:
         model = Sell
         fields = ['name', 'vat', 'third_party']
@@ -120,11 +106,6 @@ class SellForm(forms.ModelForm):
 
 class ThirdPartyForm(forms.ModelForm):
     """ Third Party Form """
-    name = forms.CharField(required=True)
-    surname = forms.CharField(required=True)
-    id = forms.CharField(required=True)
-    is_provider = forms.BooleanField(required=False)
-    is_customer = forms.BooleanField(required=False)
     class Meta:
         model = ThirdParty
         fields = ['name', 'surname', 'id', 'is_provider', 'is_customer']
